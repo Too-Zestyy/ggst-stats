@@ -59,7 +59,11 @@ export default () => {
     (async () => {
 
     try {
-      const resp = await fetch('https://proxy.corsfix.com/?https://puddle.farm/api/distribution');
+      const resp = await fetch('https://proxy.corsfix.com/?https://puddle.farm/api/distribution', {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       if (!resp.ok) {
         throw new Error(`Response status: ${resp.status}`);
