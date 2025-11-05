@@ -61,7 +61,8 @@ export default () => {
     try {
       const resp = await fetch('https://proxy.corsfix.com/?https://puddle.farm/api/distribution', {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin": "*",
         }
       });
 
