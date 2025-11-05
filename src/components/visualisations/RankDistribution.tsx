@@ -59,7 +59,7 @@ export default () => {
     (async () => {
 
     try {
-      const resp = await fetch('https://api.cors.lol/?url=https://puddle.farm/api/distribution', {
+      const resp = await fetch('https://api.allorigins.win/raw?url=https://puddle.farm/api/distribution', {
         headers: {
           'Content-Type': 'application/json',
           // "Access-Control-Allow-Origin": "*",
