@@ -60,7 +60,7 @@ export default () => {
     (async () => {
     try {
 
-      const data: RankDistributionResponse = await getCorsProxiedJSON('https://puddle.farm/api/distribution') as RankDistributionResponse ;
+      const data: RankDistributionResponse = await getCorsProxiedJSON('https://puddle.farm/api/distribution') as RankDistributionResponse;
 
       let graphData: RankDistributionGraphDataPoint[] = [];
 
@@ -105,7 +105,6 @@ export default () => {
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="player_count" stroke="#8884d8" activeDot={{ r: 8 }} />
-        {/* <Line type="monotone" dataKey="player_count" stroke="#82ca9d" /> */}
       </LineChart>
       <p>{JSON.stringify(rankDistributionData)}</p>
     </div>

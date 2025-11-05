@@ -1,8 +1,10 @@
 import React from 'react';
 import './styles/App/App.min.css';
 
-import LineChart from './components/visualisations/RankDistribution'
 import Header from './components/app/header/Header';
+
+import LineChart from './components/visualisations/RankDistribution';
+import MatchupRadioChart from './components/visualisations/MatchupWinrates';
 
 function App() {
   return (
@@ -10,6 +12,8 @@ function App() {
       <Header></Header>
 
       <LineChart></LineChart>
+      <MatchupRadioChart></MatchupRadioChart>
+      
     </div>
   );
 }
