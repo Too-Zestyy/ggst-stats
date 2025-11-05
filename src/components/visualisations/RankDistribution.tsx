@@ -50,7 +50,7 @@ const data = [
 ];
 // #endregion
 
-export default function Component() {
+export default () => {
 
   const [rankDistributionData, setRankDistributionData] = useState<RankDistributionGraphDataPoint[]>();
 

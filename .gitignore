@@ -1,5 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Ignore all irrelavent css files compiled from sass (Ideally base CSS files would be ignored too, but that would likely intefere with the build process for GitHub pages)
+
+/src/styles/**/*.css.map
+/src/styles/**/*.min.css
+/src/components/**/*.css.map
+/src/components/**/*.min.css
+
 # dependencies
 /node_modules
 /.pnp
