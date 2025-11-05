@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { RankDistributionResponse } from '../../types/responses/RankDistribution';
 import { RankDistributionGraphDataPoint } from '../../types/data/RankDistribution';
+import { getCorsProxiedHref, getCorsProxiedJSON, getCorsProxiedURL } from '../../utils/requests/corsProxy';
 
 // #region Sample data
 const data = [
@@ -57,20 +58,9 @@ export default () => {
   // async IIFE
   useEffect(() => {
     (async () => {
-
     try {
-      const resp = await fetch('https://api.allorigins.win/raw?url=https://puddle.farm/api/distribution', {
-        headers: {
-          'Content-Type': 'application/json',
-          // "Access-Control-Allow-Origin": "*",
-        }
-      });
 
-      if (!resp.ok) {
-        throw new Error(`Response status: ${resp.status}`);
-      }
-
-      const data: RankDistributionResponse = await resp.json();
+      const data: RankDistributionResponse = await getCorsProxiedJSON('https://puddle.farm/api/distribution') as RankDistributionResponse ;
 
       let graphData: RankDistributionGraphDataPoint[] = [];
 
