@@ -1,67 +1,115 @@
+import { useEffect, useState } from 'react';
 import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, Legend, PolarGrid } from 'recharts';
+import { MatchupWinrateResponse } from '../../types/responses/MatchupWinrates';
+import { getCorsProxiedJSON } from '../../utils/requests/corsProxy';
+import { MatchupCharacterNames } from '../../types/data/matchupChart';
 
-// #region Sample data
-const data = [
-  {
-    subject: 'Math',
-    A: 120,
-    B: 110,
-    fullMark: 150,
-  },
-  {
-    subject: 'Chinese',
-    A: 98,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'English',
-    A: 86,
-    B: 130,
-    fullMark: 150,
-  },
-  {
-    subject: 'Geography',
-    A: 99,
-    B: 100,
-    fullMark: 150,
-  },
-  {
-    subject: 'Physics',
-    A: 85,
-    B: 90,
-    fullMark: 150,
-  },
-  {
-    subject: 'History',
-    A: 65,
-    B: 85,
-    fullMark: 150,
-  },
-];
 
-// #endregion
-export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => (
-  <RadarChart style={{ width: '100%', maxWidth: '500px', maxHeight: '70vh', aspectRatio: 1 }} responsive data={data}>
-    <PolarGrid />
-    <PolarAngleAxis dataKey="subject" />
-    <PolarRadiusAxis angle={30} domain={[0, 150]} />
-    <Radar
-      name="Mike"
-      dataKey="A"
-      stroke="#8884d8"
-      fill="#8884d8"
-      fillOpacity={0.6}
-      isAnimationActive={isAnimationActive}
-    />
-    <Radar
-      name="Lily"
-      dataKey="B"
-      stroke="#82ca9d"
-      fill="#82ca9d"
-      fillOpacity={0.6}
-      isAnimationActive={isAnimationActive}
-    />
-    <Legend />
-  </RadarChart>
-);
+export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
+
+  const [matchupData, setMatchupData] = useState<Array<any> | undefined>();
+  const [charList, setCharList] = useState<MatchupCharacterNames[]>();
+
+  useEffect(() => {
+    (async () => {
+      const data: MatchupWinrateResponse = await getCorsProxiedJSON('https://puddle.farm/api/matchups') as MatchupWinrateResponse;
+
+      // TODO: replace display of all matchups at once with select for single characters. Additionally, add vanquisher matchups (separately)
+
+      let transformedData: any = [];
+
+      let curCharList: MatchupCharacterNames[] = [];
+
+      data.data_all.forEach((item) => {
+        transformedData.push({
+          opponent: item.char_short,
+          // abbreviation: item.char_short
+        })
+
+        curCharList.push({
+          full_name: item.char_name,
+          abbreviation: item.char_short
+        })
+      });
+
+      setCharList(curCharList);
+
+      console.log(transformedData);
+
+      data.data_all.forEach((character) => { 
+          character.matchups.forEach((matchup) => {
+
+            for (let i = 0; i < transformedData.length; i++) {
+              if (transformedData[i].opponent === matchup.char_short) {
+                transformedData[i][character.char_short] = ((matchup.wins / matchup.total_games) * 100) - 50;
+                break;
+              }
+            }
+          })
+      });
+
+      // TODO: Add vanquisher data while keeping within the same chart
+
+      // data.data_vanq.forEach((character) => { 
+      //     character.matchups.forEach((matchup) => {
+
+      //       for (let i = 0; i < transformedData.length; i++) {
+      //         if (transformedData[i].opponent === matchup.char_short) {
+      //           transformedData[i][character.char_short + ' [V]'] = ((matchup.wins / matchup.total_games) * 100) - 50;
+      //           break;
+      //         }
+      //       }
+      //     })
+      // });
+
+      setMatchupData(transformedData);
+
+      console.log(transformedData);
+
+    })()
+  }, []);
+
+  return (
+    matchupData !== undefined && charList !== undefined ?
+    <RadarChart style={{ width: '100%', maxWidth: '500px', maxHeight: '70vh', aspectRatio: 1 }} responsive data={matchupData}>
+      <PolarGrid />
+      <PolarAngleAxis dataKey="opponent" />
+      <PolarRadiusAxis angle={90} domain={[-10, 10]} />
+      
+
+      { 
+        charList.map((matchup) => {
+          return (<Radar
+            name={matchup.abbreviation}
+            dataKey={matchup.abbreviation}
+            key={matchup.abbreviation}
+            stroke="pink"
+            fill="pink"
+            fillOpacity={0.6}
+            isAnimationActive={isAnimationActive}
+          />)
+        })
+      }
+
+      {/* <Radar
+        name="Mike"
+        dataKey="A"
+        stroke="#8884d8"
+        fill="#8884d8"
+        fillOpacity={0.6}
+        isAnimationActive={isAnimationActive}
+      />
+      <Radar
+        name="Lily"
+        dataKey="B"
+        stroke="#82ca9d"
+        fill="#82ca9d"
+        fillOpacity={0.6}
+        isAnimationActive={isAnimationActive}
+      /> */}
+      <Legend />
+    </RadarChart>
+    : <div></div>
+  )
+  
+};

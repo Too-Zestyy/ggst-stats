@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/App/App.min.css';
+import './styles/App/App.css';
 
 import Header from './components/app/header/Header';
 
@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Header></Header>
 
-      <LineChart></LineChart>
+      {/* <LineChart></LineChart> */}
       <MatchupRadioChart></MatchupRadioChart>
       
     </div>

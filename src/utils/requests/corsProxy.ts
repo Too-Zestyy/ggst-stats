@@ -17,7 +17,7 @@ export const getCorsProxiedJSON = async (request_url: string): Promise<object> =
 
         const resp = await fetch(proxied_href, {
             headers: {
-            'Content-Type': 'application/json',
+            'Accept': 'application/json',
             // "Access-Control-Allow-Origin": "*",
             }
         });
