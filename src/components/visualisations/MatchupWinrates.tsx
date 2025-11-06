@@ -50,17 +50,17 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
       // TODO: Add vanquisher data while keeping within the same chart
 
-      // data.data_vanq.forEach((character) => { 
-      //     character.matchups.forEach((matchup) => {
+      data.data_vanq.forEach((character) => { 
+          character.matchups.forEach((matchup) => {
 
-      //       for (let i = 0; i < transformedData.length; i++) {
-      //         if (transformedData[i].opponent === matchup.char_short) {
-      //           transformedData[i][character.char_short + ' [V]'] = ((matchup.wins / matchup.total_games) * 100) - 50;
-      //           break;
-      //         }
-      //       }
-      //     })
-      // });
+            for (let i = 0; i < transformedData.length; i++) {
+              if (transformedData[i].opponent === matchup.char_short) {
+                transformedData[i][character.char_short + ' [V]'] = ((matchup.wins / matchup.total_games) * 100) - 50;
+                break;
+              }
+            }
+          })
+      });
 
       setMatchupData(transformedData);
 
@@ -85,6 +85,20 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
             key={matchup.abbreviation}
             stroke="pink"
             fill="pink"
+            fillOpacity={0.6}
+            isAnimationActive={isAnimationActive}
+          />)
+        })
+      }
+
+      { 
+        charList.map((matchup) => {
+          return (<Radar
+            name={matchup.abbreviation + ' [V]'}
+            dataKey={matchup.abbreviation + ' [V]'}
+            key={matchup.abbreviation + ' [V]'}
+            stroke="yellow"
+            fill="yellow"
             fillOpacity={0.6}
             isAnimationActive={isAnimationActive}
           />)
