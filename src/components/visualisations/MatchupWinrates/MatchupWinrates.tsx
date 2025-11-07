@@ -6,6 +6,8 @@ import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
 import { randomInt } from 'crypto';
+import { getRandomRGBColour } from '../../../utils/colours/randomRGB';
+import { genHslSpectrum } from '../../../utils/colours/hslSpectrum';
 
 type CheckboxState = [
   boolean, 
@@ -33,7 +35,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
   const buildCharList = (respData: MatchupWinrateResponse) => {
     let curCharList: MatchupCharacterNames[] = [];
 
-    let curColourList: string[] = [];
+    // TODO: Generate colour list based on available chars, 
 
       respData.data_all.forEach((item) => {
         curCharList.push({
@@ -41,12 +43,12 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
           abbreviation: item.char_short
         })
 
-        for (let i = 0; i < 2; i++) {
-          const curColour = `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
-          colourList.push(curColour);
-        }
+        // for (let i = 0; i < 2; i++) {
+        //   colourList.push(getRandomRGBColour());
+        // }
       });
       setCharList(curCharList);
+      setColourList(genHslSpectrum(respData.data_all.length, 2));
   }
 
   const buildGraphData = (respData: MatchupWinrateResponse, charsEnabled: boolean[]): MatchupDataPoint[] => {
@@ -183,8 +185,8 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
                 name={matchup.abbreviation}
                 dataKey={matchup.abbreviation}
                 key={matchup.abbreviation}
-                stroke={colourList[i]}
-                fill={colourList[i]}
+                stroke={colourList[i * 2]}
+                fill={colourList[i * 2]}
                 fillOpacity={0.6}
                 isAnimationActive={isAnimationActive}
               />
@@ -193,7 +195,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
           })
         }
 
-        { 
+        {
           charList.map((matchup, i) => {
             return (
             checkboxStates[i] ?
@@ -201,8 +203,8 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
               name={matchup.abbreviation + ' [V]'}
               dataKey={matchup.abbreviation + ' [V]'}
               key={matchup.abbreviation + ' [V]'}
-              stroke={colourList[i + charList.length]}
-              fill={colourList[i + charList.length]}
+              stroke={colourList[i * 2 + 1]}
+              fill={colourList[i * 2 + 1]}
               fillOpacity={0.6}
               isAnimationActive={isAnimationActive}
             />
