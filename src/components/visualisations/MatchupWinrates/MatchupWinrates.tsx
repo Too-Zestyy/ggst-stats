@@ -5,8 +5,6 @@ import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
 import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
-import { randomInt } from 'crypto';
-import { getRandomRGBColour } from '../../../utils/colours/randomRGB';
 import { genHslSpectrum } from '../../../utils/colours/hslSpectrum';
 
 type CheckboxState = [
