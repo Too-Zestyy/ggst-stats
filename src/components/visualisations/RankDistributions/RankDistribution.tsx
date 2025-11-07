@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { RankDistributionResponse } from '../../types/responses/RankDistribution';
-import { RankDistributionGraphDataPoint } from '../../types/data/RankDistribution';
-import { getCorsProxiedJSON } from '../../utils/requests/corsProxy';
+import { RankDistributionResponse } from '../../../types/responses/RankDistribution';
+import { RankDistributionGraphDataPoint } from '../../../types/data/RankDistribution';
+import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
 
 export default () => {
 
@@ -70,6 +70,6 @@ export default () => {
       <p>{JSON.stringify(rankDistributionData)}</p>
     </div>
     
-    : <div></div>
+    : undefined
   );
 }

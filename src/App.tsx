@@ -3,8 +3,8 @@ import './styles/App/App.css';
 
 import Header from './components/app/header/Header';
 
-import LineChart from './components/visualisations/RankDistribution';
-import MatchupRadioChart from './components/visualisations/MatchupWinrates';
+import LineChart from './components/visualisations/RankDistributions/RankDistribution';
+import MatchupRadioChart from './components/visualisations/MatchupWinrates/MatchupWinrates';
 
 function App() {
   return (
