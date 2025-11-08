@@ -69,8 +69,6 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
   const buildCharList = (respData: MatchupWinrateResponse) => {
     let curCharList: MatchupCharacterNames[] = [];
 
-    // TODO: Generate colour list based on available chars, 
-
       respData.data_all.forEach((item) => {
         curCharList.push({
           full_name: item.char_name,
@@ -112,8 +110,6 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
             }
           })
       });
-
-      // TODO: Add vanquisher data while keeping within the same chart
 
       respData.data_vanq.forEach((character) => { 
           character.matchups.forEach((matchup) => {
