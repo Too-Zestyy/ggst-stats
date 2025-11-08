@@ -12,6 +12,10 @@ type MatchupDataPoint = {
   [playingAs: string]: string | number
 }
 
+// Create a literal type for radiobutton options, while retaining the ability to map over them
+const datasetOptions = ['Diamond and below', 'Vanquisher', 'All'] as const;
+type DatasetOption = typeof datasetOptions[number];
+
 const DEFAULT_WIN_DELTA = 5;
 
 export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
@@ -23,6 +27,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
   const [charList, setCharList] = useState<MatchupCharacterNames[]>();
 
+  const [datasetFilter, setDatasetFilter] = useState<DatasetOption>('All');
   const [characterCheckboxStates, setCharacterCheckboxStates] = useState<boolean[]>([]);
   // #endregion
 
@@ -165,11 +170,24 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
       <div className={styles.controls}>
         <div className={styles.datasetRadiobuttons}>
           {
-            ['Diamond and below', 'Vanquisher', 'All'].map(elem => {
+            datasetOptions.map(elem => {
               return (
                 <div className={styles.datasetBoxContainer}>
                   <p>{elem}</p>
-                  <input type='radio' name='dataset-select'></input>
+                  <input 
+                    type='radio' data-value={elem} name='dataset-select' checked={elem === datasetFilter}
+                    onChange={e => {
+
+                      const selectionValue = e.target.getAttribute('data-value');
+
+                      if (selectionValue === null) {
+                        throw Error("Unknown radio button selected for dtaset filtering");
+                      }
+                      const typedSelection = selectionValue as DatasetOption;
+                      setDatasetFilter(typedSelection);
+                    }
+                    }
+                  ></input>
                 </div>
               )
             })
@@ -219,10 +237,12 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
         { 
           // TODO: Update both blocs to check for preference to include vanquisher data
+          datasetFilter !== 'Vanquisher' &&
           genCharRadars(false)
         }
 
         {
+          datasetFilter !== 'Diamond and below' &&
           genCharRadars(true)
         }
         <Legend />
