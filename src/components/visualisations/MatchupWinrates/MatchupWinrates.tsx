@@ -5,12 +5,7 @@ import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
 import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
-import { genHslSpectrum, genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
-
-type CheckboxState = [
-  boolean, 
-  Dispatch<SetStateAction<boolean>>
-];
+import { genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
 
 type MatchupDataPoint = {
   opponent: string,
