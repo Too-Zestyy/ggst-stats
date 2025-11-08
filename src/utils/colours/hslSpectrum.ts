@@ -18,3 +18,18 @@ export const genHslSpectrum = (numHues: number, lightnessGroupSize: number = 1, 
 
     return spectrum;
 }
+
+export const genSimpleHslSpectrum = (numHues: number, saturation: number = 100, lightness: number = 60, hueCutout: number = 10, offset: number = 0): string[] => {
+
+    let spectrum: string[] = [];
+
+    const hueIncrement = (360 - hueCutout)/(numHues);
+
+    for (let i = 0; i < numHues; i++) {
+        spectrum.push(
+            `hsl(${(hueIncrement * i) + offset + (hueCutout/2)}, ${saturation}%, ${lightness}%)`
+        );
+    }
+
+    return spectrum;
+}

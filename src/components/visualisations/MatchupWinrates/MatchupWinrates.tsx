@@ -1,11 +1,11 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
 import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, Legend, PolarGrid } from 'recharts';
 import { MatchupWinrateResponse } from '../../../types/responses/MatchupWinrates';
 import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
 import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
-import { genHslSpectrum } from '../../../utils/colours/hslSpectrum';
+import { genHslSpectrum, genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
 
 type CheckboxState = [
   boolean, 
@@ -21,15 +21,56 @@ const DEFAULT_WIN_DELTA = 5;
 
 export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
 
+  // #region ComponentState
   const [matchupResponse, setMatchupResponse] = useState<MatchupWinrateResponse>();
   const [matchupData, setMatchupData] = useState<Array<any> | undefined>();
   const [maxWinDelta, setMaxWinDelta] = useState<number>(DEFAULT_WIN_DELTA);
 
   const [charList, setCharList] = useState<MatchupCharacterNames[]>();
-  const [colourList, setColourList] = useState<string[]>([]);
 
-  const [checkboxStates, setCheckboxStates] = useState<boolean[]>([]);
+  const [characterCheckboxStates, setCharacterCheckboxStates] = useState<boolean[]>([]);
+  // #endregion
 
+  // #region GraphElementConstructors
+  const genCharRadars = (vanquisher: boolean): JSX.Element[] => {
+
+    let elements: JSX.Element[] = [];
+
+    // Get colours equal to the number of checked boxes
+    const colours = genSimpleHslSpectrum(
+      characterCheckboxStates.filter(state => state).length, 
+      vanquisher ? 90 : 70, vanquisher ? 80 : 55
+    );
+
+    let curColourIdx = 0;
+
+    const charSuffix = + vanquisher ? ' [V]' : '';
+
+    // Do not attempt to add radars if matchupData is undefined
+    for (let i = 0; i < (charList?.length ?? 0); i++) {
+
+      if (characterCheckboxStates[i]) {
+        elements.push(
+        <Radar
+            name={charList?.at(i)?.abbreviation + charSuffix}
+            dataKey={charList?.at(i)?.abbreviation + charSuffix}
+            key={charList?.at(i)?.abbreviation + charSuffix}
+            stroke={colours[curColourIdx]}
+            fill={colours[curColourIdx]}
+            fillOpacity={0.6}
+            isAnimationActive={isAnimationActive}
+          />
+        )
+        curColourIdx++;
+      }
+    }
+
+    return elements
+
+  }
+  // #endregion
+
+  // #region DataTransformationFunctions
   const buildCharList = (respData: MatchupWinrateResponse) => {
     let curCharList: MatchupCharacterNames[] = [];
 
@@ -40,13 +81,8 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
           full_name: item.char_name,
           abbreviation: item.char_short
         })
-
-        // for (let i = 0; i < 2; i++) {
-        //   colourList.push(getRandomRGBColour());
-        // }
       });
       setCharList(curCharList);
-      setColourList(genHslSpectrum(respData.data_all.length, 2));
   }
 
   const buildGraphData = (respData: MatchupWinrateResponse, charsEnabled: boolean[]): MatchupDataPoint[] => {
@@ -104,8 +140,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
     return transformedData;
   }
-
-  // let checkboxStates: CheckboxState[] = [];
+  // #endregion
 
   useEffect(() => {
     (async () => {
@@ -117,15 +152,15 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
       data.data_all.forEach((item) => {
 
-        let curboxStates = checkboxStates;
-        checkboxStates.push(false)
+        let curboxStates = characterCheckboxStates;
+        characterCheckboxStates.push(false)
 
-        setCheckboxStates(curboxStates);
+        setCharacterCheckboxStates(curboxStates);
       });
 
       buildCharList(data);
 
-      setMatchupData(buildGraphData(data, checkboxStates));
+      setMatchupData(buildGraphData(data, characterCheckboxStates));
 
       // console.log(transformedData);
 
@@ -135,38 +170,54 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
   return (
     matchupData !== undefined && charList !== undefined ?
     <div className={styles.container}>
-      <div className={styles.characterSelectionMenu}>
-        { 
-          charList.map((matchup, i) => {
-            return (
-            <div key={i}>
-              <p>{matchup.abbreviation}</p>
-              <input type='checkbox' data-idx={i} name={matchup.abbreviation}
-                    onChange={e => {
-                      
-                            let curboxStates = checkboxStates;
 
-                            const keyVal = e.target.getAttribute('data-idx');
+      <div className={styles.controls}>
+        <div className={styles.datasetRadiobuttons}>
+          {
+            ['Diamond and below', 'Vanquisher', 'All'].map(elem => {
+              return (
+                <div className={styles.datasetBoxContainer}>
+                  <p>{elem}</p>
+                  <input type='radio' name='dataset-select'></input>
+                </div>
+              )
+            })
+          }
+        </div>
 
-                            if (keyVal === null) {
-                              throw Error('No key found for character select checkbox')
-                            } 
-                            else {
-                              curboxStates[parseInt(keyVal)] = e.target.checked;
-                              setCheckboxStates(curboxStates);
-                            }
+        <div className={styles.characterSelectionMenu}>
+          { 
+            charList.map((matchup, i) => {
+              return (
+              <div key={i}>
+                <p>{matchup.full_name}</p>
+                <input type='checkbox' data-idx={i} name={matchup.abbreviation}
+                      onChange={e => {
+                        
+                              let curboxStates = characterCheckboxStates;
 
-                            if (matchupResponse === undefined) {
-                              throw Error('Matchup response data not stored within state for graph update')
-                            }
+                              const keyVal = e.target.getAttribute('data-idx');
 
-                            setMatchupData(buildGraphData(matchupResponse, checkboxStates));
-                   }}/>
-              
-            </div>
-          )
-          })
-        }
+                              if (keyVal === null) {
+                                throw Error('No key found for character select checkbox')
+                              } 
+                              else {
+                                curboxStates[parseInt(keyVal)] = e.target.checked;
+                                setCharacterCheckboxStates(curboxStates);
+                              }
+
+                              if (matchupResponse === undefined) {
+                                throw Error('Matchup response data not stored within state for graph update')
+                              }
+
+                              setMatchupData(buildGraphData(matchupResponse, characterCheckboxStates));
+                    }}/>
+                
+              </div>
+            )
+            })
+          }
+        </div>
       </div>
 
       <RadarChart style={{ width: '33%', aspectRatio: 1 }} responsive data={matchupData}>
@@ -176,57 +227,13 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
         
 
         { 
-          charList.map((matchup, i) => {
-            return (
-              checkboxStates[i] ?
-              <Radar
-                name={matchup.abbreviation}
-                dataKey={matchup.abbreviation}
-                key={matchup.abbreviation}
-                stroke={colourList[i * 2]}
-                fill={colourList[i * 2]}
-                fillOpacity={0.6}
-                isAnimationActive={isAnimationActive}
-              />
-              : undefined
-          )
-          })
+          // TODO: Update both blocs to check for preference to include vanquisher data
+          genCharRadars(false)
         }
 
         {
-          charList.map((matchup, i) => {
-            return (
-            checkboxStates[i] ?
-            <Radar
-              name={matchup.abbreviation + ' [V]'}
-              dataKey={matchup.abbreviation + ' [V]'}
-              key={matchup.abbreviation + ' [V]'}
-              stroke={colourList[i * 2 + 1]}
-              fill={colourList[i * 2 + 1]}
-              fillOpacity={0.6}
-              isAnimationActive={isAnimationActive}
-            />
-            : undefined
-          )
-          })
+          genCharRadars(true)
         }
-
-        {/* <Radar
-          name="Mike"
-          dataKey="A"
-          stroke="#8884d8"
-          fill="#8884d8"
-          fillOpacity={0.6}
-          isAnimationActive={isAnimationActive}
-        />
-        <Radar
-          name="Lily"
-          dataKey="B"
-          stroke="#82ca9d"
-          fill="#82ca9d"
-          fillOpacity={0.6}
-          isAnimationActive={isAnimationActive}
-        /> */}
         <Legend />
       </RadarChart>
     </div>

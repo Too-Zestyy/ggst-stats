@@ -6,6 +6,30 @@
     align-items: center;
 }
 
+.controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 55%;
+}
+
+.datasetRadiobuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+}
+.datasetBoxContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.datasetRadiobuttons > * {
+    width: 30%;
+}
+
 .characterSelectionMenu, .characterSelectionMenu div {
     display: flex;
     flex-direction: row;
