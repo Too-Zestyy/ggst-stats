@@ -9,6 +9,7 @@ import MatchupRadioChart from './components/visualisations/MatchupWinrates/Match
 function App() {
   return (
     <div className="App">
+      <title>GGST Stats</title>
       <Header></Header>
 
       {/* <LineChart></LineChart> */}
