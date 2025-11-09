@@ -1,11 +1,12 @@
 import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
-import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, Legend, PolarGrid } from 'recharts';
+import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, Legend, PolarGrid, Tooltip, TooltipContentProps } from 'recharts';
 import { MatchupWinrateResponse } from '../../../types/responses/MatchupWinrates';
 import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
 import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
 import { genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
+import TooltipContainer from '../components/TooltipContainer/TooltipContainer';
 
 type MatchupDataPoint = {
   opponent: string,
@@ -18,6 +19,28 @@ type DatasetOption = typeof datasetOptions[number];
 
 const DEFAULT_WIN_DELTA = 5;
 
+
+const MatchupWinrateTooltip = ({ active, payload, label }: TooltipContentProps<string | number, string>) => {
+  const isVisible = active && payload && payload.length;
+
+  return (
+    isVisible &&
+    <TooltipContainer isVisible={isVisible}>
+      {
+        payload.map(elem => {
+          return (
+            <p><span style={{color: elem.stroke, fontWeight: 'bolder'}}>{`${elem.dataKey}`}</span> {`VS ${label}: ${elem.value.toFixed(2)}%`}</p>
+          )
+        })
+      }
+      {/* <p>{JSON.stringify(payload)}</p>
+      <p>{label?.toString()}</p> */}
+    </TooltipContainer>
+  )
+
+}
+
+
 export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
 
   // #region ComponentState
@@ -27,7 +50,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
   const [charList, setCharList] = useState<MatchupCharacterNames[]>();
 
-  const [datasetFilter, setDatasetFilter] = useState<DatasetOption>('All');
+  const [datasetFilter, setDatasetFilter] = useState<DatasetOption>('Vanquisher');
   const [characterCheckboxStates, setCharacterCheckboxStates] = useState<boolean[]>([]);
   // #endregion
 
@@ -143,9 +166,6 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
       const data: MatchupWinrateResponse = await getCorsProxiedJSON('https://puddle.farm/api/matchups') as MatchupWinrateResponse;
       await setMatchupResponse(data);
 
-      // TODO: Add toggle for vanquisher vs lower ranks
-
-
       data.data_all.forEach((item) => {
 
         let curboxStates = characterCheckboxStates;
@@ -172,7 +192,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
           {
             datasetOptions.map(elem => {
               return (
-                <div className={styles.datasetBoxContainer}>
+                <div className={styles.datasetBoxContainer} key={elem}>
                   <p>{elem}</p>
                   <input 
                     type='radio' data-value={elem} name='dataset-select' checked={elem === datasetFilter}
@@ -233,10 +253,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
         <PolarGrid />
         <PolarAngleAxis dataKey="opponent" />
         <PolarRadiusAxis angle={90} domain={[-20, 20]} />
-        
-
         { 
-          // TODO: Update both blocs to check for preference to include vanquisher data
           datasetFilter !== 'Vanquisher' &&
           genCharRadars(false)
         }
@@ -246,6 +263,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
           genCharRadars(true)
         }
         <Legend />
+        <Tooltip content={MatchupWinrateTooltip}/>
       </RadarChart>
     </div>
     

@@ -36,12 +36,12 @@
 } 
 
 .characterSelectionMenu {
-    width: 50%;
+    width: 66%;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .characterSelectionMenu div {
-    flex: 1 0 21%;
-    justify-content: center;
+    width: 10em;
+    justify-content: space-between;
 }
