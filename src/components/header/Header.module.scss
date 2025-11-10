@@ -1,0 +1,39 @@
+.pageTitle {
+    width: 100%;
+    z-index: 2;
+    
+    text-align: center;
+    font-size: x-large;
+}
+
+.pageHeader {
+    background-color: #4f3565;
+    margin: 0;
+    padding: 1vh 0;
+
+    > nav > ul {
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    > nav > ul > li {
+        font-size: large;
+        flex: 0 0 33%;
+        text-align: center;
+    }
+
+    > nav > ul > ul {
+        position: absolute;
+    }
+
+    > nav > ul > ul > li {
+        visibility: hidden;
+    }
+
+    > nav > ul > ul:hover > li {
+        visibility: visible;
+    }
+
+}

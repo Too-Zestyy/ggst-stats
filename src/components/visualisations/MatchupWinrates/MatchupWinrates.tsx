@@ -26,6 +26,7 @@ const MatchupWinrateTooltip = ({ active, payload, label }: TooltipContentProps<s
   return (
     isVisible &&
     <TooltipContainer isVisible={isVisible}>
+      <p style={{ fontStyle: 'italic' }}>Win rate advantage against {`${label}`}:</p>
       {
         payload.map(elem => {
           return (
@@ -45,7 +46,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
   // #region ComponentState
   const [matchupResponse, setMatchupResponse] = useState<MatchupWinrateResponse>();
-  const [matchupData, setMatchupData] = useState<Array<any> | undefined>();
+  const [matchupData, setMatchupData] = useState<MatchupDataPoint[] | undefined>();
   const [maxWinDelta, setMaxWinDelta] = useState<number>(DEFAULT_WIN_DELTA);
 
   const [charList, setCharList] = useState<MatchupCharacterNames[]>();
@@ -161,9 +162,28 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
   }
   // #endregion
 
+  const getWinrateBoundaries = (graphdata: MatchupDataPoint[]): [number, number] => {
+
+    let maxWinrate = 0;
+
+    graphdata.forEach(matchup => {
+      Object.entries(matchup).forEach(([key, value]) => {
+          if (key !== 'opponent' && value > maxWinrate) {
+            // A string should never be here, it is only forced to be 'possible' due to type restrictions
+            maxWinrate = value as number;
+          } 
+      })
+    });
+
+    return [0, 0];
+  }
+
   useEffect(() => {
     (async () => {
-      const data: MatchupWinrateResponse = await getCorsProxiedJSON('https://puddle.farm/api/matchups') as MatchupWinrateResponse;
+
+      const resp = await fetch('https://puddle.farm/api/matchups', {headers: {'Accept': 'application/json'}});
+
+      const data: MatchupWinrateResponse = await resp.json() as MatchupWinrateResponse;
       await setMatchupResponse(data);
 
       data.data_all.forEach((item) => {

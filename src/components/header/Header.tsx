@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styles from './Header.module.css';
 
 
@@ -9,6 +8,11 @@ export default () => {
             <nav>
                 <ul>
                     <li>Overview</li>
+                    <ul>
+                        <li>Drop 1</li>
+                        <li>Drop 2</li>
+                        <li>Drop 2</li>
+                    </ul>
                     <li>Matchups</li>
                     <li>About</li>
                 </ul>

@@ -13,7 +13,9 @@ export default () => {
     (async () => {
     try {
 
-      const data: RankDistributionResponse = await getCorsProxiedJSON('https://puddle.farm/api/distribution') as RankDistributionResponse;
+      const resp = await fetch('https://puddle.farm/api/distribution', {headers: {'Accept': 'application/json'}});
+
+      const data: RankDistributionResponse = await resp.json() as RankDistributionResponse;
 
       // const resp = await fetch('https://puddle.farm/api/distribution', {
       //   headers: {
