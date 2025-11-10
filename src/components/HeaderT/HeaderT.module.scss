@@ -1,0 +1,97 @@
+@import '../../styles/theme/theme.scss';
+
+$header-colour: #4f3565;
+
+*
+{
+  margin: 0;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.menu {
+    z-index: 2;
+    background: $header-colour;
+    border-radius: 6px;
+
+    ul {
+        z-index: 1;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    ul li {
+        list-style: none;
+        padding: 4px;
+        position: relative;
+        transition: 0.5s;
+        display: block;
+    }
+
+    ul li a {
+        color: #fff;
+        text-decoration: none;
+        padding: 5px 10px;
+        transition: all 1s;
+    }
+
+    ul li a:hover {
+        background: $header-colour;
+        border-radius: 6px;
+    }
+
+
+    ul li ul {
+        // z-index: -1;
+        display: block;
+        position: absolute;
+
+        height: 0;
+        overflow: hidden;
+
+        background-color: $second-level-container-bg;
+
+        border-left: 5px solid $header-colour;
+
+        // border-radius: 6px;
+        //   width: 100%;
+        //   padding: 10px 2px;
+
+        transition: all 0.5s;
+        top: 100%;
+    }
+
+    ul li ul > * {
+        display: block;
+    }
+
+    ul li:hover ul, .menu ul li ul:hover {
+        display: block;
+        position: absolute;
+        //   background: #4f3565;
+        
+        height: calc(200% + 2px);
+        //   box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.5);
+    }
+
+    ul li span.dropdownUnderline {
+        z-index: -1;
+        background-color: $header-colour;
+        width: 100%;
+        clip-path: polygon(0 48%, 62% 48%, 100% 100%, 0% 100%);
+        height: 1em;
+        top: 33%;
+        position: absolute;
+
+        transition: all 0.25s cubic-bezier(0.09,0.66,0.58,1.00);
+    }
+
+    // TODO: Find method to dynamically apply top values based on number of elements present
+    @for $i from 1 through 10 {
+        ul li :nth-child(#{$i}):hover ~ span.dropdownUnderline {
+            // border-color: red;
+            top: calc(50% * $i);
+        }
+    }
+}

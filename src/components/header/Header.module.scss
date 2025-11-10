@@ -7,6 +7,9 @@
 }
 
 .pageHeader {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     background-color: #4f3565;
     margin: 0;
     padding: 1vh 0;
@@ -24,16 +27,24 @@
         text-align: center;
     }
 
-    > nav > ul > ul {
-        position: absolute;
-    }
+    // > nav > ul > ul.dropdownMenu {
+    //     position: absolute;
+    //     // padding-left: 0;
+    //     display: block;
+    //     // left: 0;
+    //     // top: 100%;
+    //     // width: 100%;
+    // }
 
-    > nav > ul > ul > li {
+    > nav > ul > ul.dropdownMenu > li {
         visibility: hidden;
     }
 
-    > nav > ul > ul:hover > li {
+    > nav > ul > ul.dropdownMenu:hover > li {
         visibility: visible;
+        position: absolute;
+        // padding-left: 0;
+        display: block;
     }
 
 }

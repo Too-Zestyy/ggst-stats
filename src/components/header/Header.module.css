@@ -6,6 +6,9 @@
 }
 
 .pageHeader {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   background-color: #4f3565;
   margin: 0;
   padding: 1vh 0;
@@ -21,12 +24,11 @@
   flex: 0 0 33%;
   text-align: center;
 }
-.pageHeader > nav > ul > ul {
-  position: absolute;
-}
-.pageHeader > nav > ul > ul > li {
+.pageHeader > nav > ul > ul.dropdownMenu > li {
   visibility: hidden;
 }
-.pageHeader > nav > ul > ul:hover > li {
+.pageHeader > nav > ul > ul.dropdownMenu:hover > li {
   visibility: visible;
+  position: absolute;
+  display: block;
 }/*# sourceMappingURL=Header.module.css.map */

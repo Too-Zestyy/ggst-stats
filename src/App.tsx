@@ -5,11 +5,13 @@ import Header from './components/header/Header';
 
 import LineChart from './components/visualisations/RankDistributions/RankDistribution';
 import MatchupRadioChart from './components/visualisations/MatchupWinrates/MatchupWinrates';
+import HeaderT from './components/HeaderT/HeaderT';
 
 function App() {
   return (
     <div className="App">
-      <Header></Header>
+      {/* <Header></Header> */}
+      <HeaderT></HeaderT>
 
       {/* <LineChart></LineChart> */}
       <MatchupRadioChart></MatchupRadioChart>

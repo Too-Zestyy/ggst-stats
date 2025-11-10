@@ -8,12 +8,12 @@ export default () => {
             <nav>
                 <ul>
                     <li>Overview</li>
-                    <ul>
+                    <li>Matchups</li>
+                    <ul className={styles.dropdownMenu}>
                         <li>Drop 1</li>
                         <li>Drop 2</li>
                         <li>Drop 2</li>
                     </ul>
-                    <li>Matchups</li>
                     <li>About</li>
                 </ul>
             </nav>
