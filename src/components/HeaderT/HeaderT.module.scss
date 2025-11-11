@@ -13,7 +13,6 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
 
 .menu {
     z-index: 2;
-    // background: $header-colour;
     border-radius: 6px;
 
     font-size: larger;
@@ -43,7 +42,6 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
     }
 
     ul li a:hover {
-        // background: $header-colour;
         border-radius: 6px;
     }
 
@@ -52,19 +50,13 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
         // z-index: -1;
         display: block;
         position: absolute;
-
+        width: 100%;
         height: 0;
         overflow: hidden;
-
         background-color: theme.$page-bg;
 
         border-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(79, 53, 101, 1) 10%, rgba(79, 53, 101, 1) 100%) 1;
-
         border-left: 3px solid;
-
-        // border-radius: 6px;
-          width: 100%;
-        //   padding: 10px 2px;
 
         transition: all 0.25s $header-transition-curve;
         top: 100%;
@@ -79,13 +71,10 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
     ul li:hover ul, .menu ul li ul:hover {
         display: block;
         position: absolute;
-        //   background: #4f3565;
             
     }
 
     $max-dropdown-element-count: 10;
-
-        //   box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.5);
     
     // Dynamically set height based on number of elements to a reasonable max number - `sibling-count()` is not sufficiently compatible yet.
     @for $i from 1 through 10 {
@@ -98,15 +87,14 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
         z-index: -1;
         background: linear-gradient(45deg, $header-colour 0%, $header-colour 75%, rgba(0, 0, 0, 0) 90%);
         width: 100%;
-        // clip-path: polygon(0 48%, 62% 48%, 100% 100%, 0% 100%);
         height: .33em;
         bottom: 0;
         position: absolute;
 
         transition: all 0.25s $header-transition-curve;
     }
+
     @for $i from 2 through $max-dropdown-element-count {
-        // ul li:first-child:nth-last-child(2),
 
         ul li:first-child:nth-last-child(#{$i}):hover ~ span.dropdownUnderline {
             bottom: calc(100% - ((100% / ($i - 1))));
@@ -117,7 +105,7 @@ $header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
             // Underline span is included, so the minimum children should be 2
             @for $j from 2 through $i - 1 {
                 :nth-child(#{$j - 1}):hover ~ span.dropdownUnderline {
-                    bottom: calc(100% - ((100% / ($i - 1)) * ($j - 1))); // ((50% * $i)) 
+                    bottom: calc(100% - ((100% / ($i - 1)) * ($j - 1)));
                 }
             }
         }
