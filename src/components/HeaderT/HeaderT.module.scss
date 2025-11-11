@@ -1,6 +1,8 @@
-@import '../../styles/theme/theme.scss';
+@use '../../styles/theme/theme.scss';
 
 $header-colour: #4f3565;
+
+$header-transition-curve: cubic-bezier(0.09,0.66,0.58,1.00);
 
 *
 {
@@ -11,8 +13,10 @@ $header-colour: #4f3565;
 
 .menu {
     z-index: 2;
-    background: $header-colour;
+    // background: $header-colour;
     border-radius: 6px;
+
+    font-size: larger;
 
     ul {
         z-index: 1;
@@ -27,17 +31,19 @@ $header-colour: #4f3565;
         position: relative;
         transition: 0.5s;
         display: block;
+
+        width: 30%;
     }
 
     ul li a {
         color: #fff;
         text-decoration: none;
-        padding: 5px 10px;
+        padding: 0px 10px;
         transition: all 1s;
     }
 
     ul li a:hover {
-        background: $header-colour;
+        // background: $header-colour;
         border-radius: 6px;
     }
 
@@ -50,48 +56,70 @@ $header-colour: #4f3565;
         height: 0;
         overflow: hidden;
 
-        background-color: $second-level-container-bg;
+        background-color: theme.$page-bg;
 
-        border-left: 5px solid $header-colour;
+        border-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 0%, rgba(79, 53, 101, 1) 10%, rgba(79, 53, 101, 1) 100%) 1;
+
+        border-left: 3px solid;
 
         // border-radius: 6px;
-        //   width: 100%;
+          width: 100%;
         //   padding: 10px 2px;
 
-        transition: all 0.5s;
+        transition: all 0.25s $header-transition-curve;
         top: 100%;
     }
 
     ul li ul > * {
         display: block;
+        width: 100%;
+        text-align: left;
     }
 
     ul li:hover ul, .menu ul li ul:hover {
         display: block;
         position: absolute;
         //   background: #4f3565;
-        
-        height: calc(200% + 2px);
+            
+    }
+
+    $max-dropdown-element-count: 10;
+
         //   box-shadow: 0px 20px 100px 0px rgba(0, 0, 0, 0.5);
+    
+    // Dynamically set height based on number of elements to a reasonable max number - `sibling-count()` is not sufficiently compatible yet.
+    @for $i from 1 through 10 {
+        ul li:hover ul:has(:first-child:nth-last-child(#{$i})) {
+            height: calc((100% * ($i - 1)) + 2px);
+        }
     }
 
     ul li span.dropdownUnderline {
         z-index: -1;
-        background-color: $header-colour;
+        background: linear-gradient(45deg, $header-colour 0%, $header-colour 75%, rgba(0, 0, 0, 0) 90%);
         width: 100%;
-        clip-path: polygon(0 48%, 62% 48%, 100% 100%, 0% 100%);
-        height: 1em;
-        top: 33%;
+        // clip-path: polygon(0 48%, 62% 48%, 100% 100%, 0% 100%);
+        height: .33em;
+        bottom: 0;
         position: absolute;
 
-        transition: all 0.25s cubic-bezier(0.09,0.66,0.58,1.00);
+        transition: all 0.25s $header-transition-curve;
     }
+    @for $i from 2 through $max-dropdown-element-count {
+        // ul li:first-child:nth-last-child(2),
 
-    // TODO: Find method to dynamically apply top values based on number of elements present
-    @for $i from 1 through 10 {
-        ul li :nth-child(#{$i}):hover ~ span.dropdownUnderline {
-            // border-color: red;
-            top: calc(50% * $i);
+        ul li:first-child:nth-last-child(#{$i}):hover ~ span.dropdownUnderline {
+            bottom: calc(100% - ((100% / ($i - 1))));
+        }
+
+        ul li:first-child:nth-last-child(#{$i}) ~ {
+
+            // Underline span is included, so the minimum children should be 2
+            @for $j from 2 through $i - 1 {
+                :nth-child(#{$j - 1}):hover ~ span.dropdownUnderline {
+                    bottom: calc(100% - ((100% / ($i - 1)) * ($j - 1))); // ((50% * $i)) 
+                }
+            }
         }
     }
 }

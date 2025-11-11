@@ -1,4 +1,6 @@
+@use '../theme/theme.scss';
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 
 /*
 Source - https://stackoverflow.com/questions/9547291/how-to-remove-margin-space-around-body-or-clear-default-css-styles#9547315
@@ -25,7 +27,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    background-color: rgb(20, 20, 20);
+    background-color: theme.$page-bg;
     color: lightgray;
   }
 
