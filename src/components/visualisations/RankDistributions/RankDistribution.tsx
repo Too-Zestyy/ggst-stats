@@ -72,6 +72,6 @@ export default () => {
       <p>{JSON.stringify(rankDistributionData)}</p>
     </div>
     
-    : undefined
+    : <p>Loading...</p>
   );
 }

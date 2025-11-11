@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './HeaderT.module.css';
 
 const Header = () => {
@@ -7,12 +8,20 @@ const Header = () => {
             <div className={styles.menu}>
                 <ul>
                 <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
+                <li>
+                    <a href="#">About</a>
+                    <ul>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <li><a href="#">Websiteeewwwwwwwwwwwwwwww</a></li>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <span className={styles.dropdownUnderline}></span>
+                    </ul>
+                </li>
                 <li>
                     <a href="#">Services +</a>
                     <ul>
-                        <li><a href="#">Websiteeewwwwwwwwwwwwwwww</a></li>
-                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <li><Link to="/">Matchups</Link></li>
+                        <li><Link to="/rank-distribution">Rank Distribution</Link></li>
                         <li><a href="#">Web Appaaaaaaaaa</a></li>
                         <li><a href="#">Web Appaaaaaaaaa</a></li>
                         <span className={styles.dropdownUnderline}></span>
