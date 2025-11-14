@@ -1,0 +1,173 @@
+@mixin centred-single-cell-grid-child {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: center;
+    align-self: center;
+}
+
+@keyframes containerAnimation {
+    0% {
+        transform: scale(1);
+    }
+    25% {
+        transform: scale(1.1);
+    }
+    27.5% {
+        transform: scale(1);
+    }
+    30% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.componentContainer {
+    display: grid;
+    width: 100%;
+    height: auto;
+
+    > * {
+        @include centred-single-cell-grid-child;
+    }
+
+    animation: 4s containerAnimation infinite;
+
+}
+.loaderContainer {
+    display: grid;
+    // align-content: center;
+    // justify-content: center;
+    
+    @media (min-width: 768px) {
+        height: 25vh;
+        aspect-ratio: 1;
+    }
+    @media (max-width: 767px) {
+        width: 80vw;
+        aspect-ratio: 1;
+    }
+    
+
+    // All elements will be placed on top of each other, in the center
+    * {
+        @include centred-single-cell-grid-child;
+    }
+}
+
+$loader-grid-colour: rgba(255, 255, 255, 0.2);;
+
+@mixin border-circle {
+    border-radius: 100%;
+    border: 1px solid $loader-grid-colour;
+    
+}
+
+.outerCircle {
+    @include border-circle;
+    width: 100%;
+    height: 100%;
+}
+.midOuterCircle {
+    @include border-circle;
+    width: 75%;
+    height: 75%;
+}
+.midInnerCircle {
+    @include border-circle;
+    width: 50%;
+    height: 50%;
+}
+.innerCircle {
+    @include border-circle;
+    width: 25%;
+    height: 25%;
+}
+
+ul.loaderGrid {
+    list-style: none;
+
+    > li {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-color: $loader-grid-colour;
+    }
+
+    @for $i from 1 through 7 {
+        :nth-child(#{$i}) {
+            transform: rotate(calc((360deg / 7) * #{i}));
+        }
+    }
+}
+
+@mixin loader-bg-gridline {
+    width: 1px;
+    height: 50%;
+    background-color: $loader-grid-colour;
+    // transform: translate(0px, -50%);
+}
+
+@for $i from 1 through 7 {
+    .gridLine#{$i} {
+        @include loader-bg-gridline;
+        transform: rotate(calc($i * (1turn / 7))) translate(0px, -50%);
+    }
+}
+
+
+.loaderFace {
+    background-color: rgba(0, 140, 0, 0.5);
+    clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+    // border: 1px solid lightgreen;
+    width: 66%;
+    aspect-ratio: 1;
+
+    // animation-name: ;
+    animation: 2s loaderFaceAnimation infinite alternate-reverse;
+}
+
+@keyframes loaderFaceAnimation {
+    0% {
+        clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+    }
+    15% { 
+        clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+        background-color: rgba(0, 140, 0, 0.5);
+    }
+
+    25% {
+        clip-path: polygon(50% 50%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+        // background-color: rgba(70, 0, 90, 0.5);
+    }
+    35% {
+        clip-path: polygon(50% 50%, 50% 50%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+    }
+    45% {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+    }
+    55% {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 25% 100%, 0% 60%, 10% 20%);
+    }
+    65% {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 60%, 0% 60%, 10% 20%);
+    }
+    75% {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    }
+
+    100% {
+        clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+        background-color: rgba(170, 0, 210, 0.5);
+    }
+
+
+//     85% {
+//         clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+//     }
+//     100% {
+//         clip-path: polygon(50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%);
+//     }
+}

@@ -7,6 +7,7 @@ import LineChart from './components/visualisations/RankDistributions/RankDistrib
 import MatchupRadioChart from './components/visualisations/MatchupWinrates/MatchupWinrates';
 import HeaderT from './components/HeaderT/HeaderT';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Loader from './components/Loader/Loader';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
     <BrowserRouter basename='/ggst-stats' >
       <div className={styles.App}>
         <HeaderT></HeaderT>
+        <Loader></Loader>
 
         <Routes>
           <Route path="/" element={<MatchupRadioChart/>}/>
