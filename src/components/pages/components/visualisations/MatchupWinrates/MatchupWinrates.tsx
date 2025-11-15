@@ -1,13 +1,13 @@
 import { Dispatch, JSX, SetStateAction, useEffect, useState } from 'react';
 import { RadarChart, Radar, PolarAngleAxis, PolarRadiusAxis, Legend, PolarGrid, Tooltip, TooltipContentProps } from 'recharts';
-import { MatchupWinrateResponse } from '../../../types/responses/MatchupWinrates';
-import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
-import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 
 import styles from './MatchupWinrates.module.css';
-import { genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
 import TooltipContainer from '../components/TooltipContainer/TooltipContainer';
-import Loader from '../../routing/Loader/Loader';
+import { MatchupWinrateResponse } from '../../../../../types/responses/MatchupWinrates';
+import { MatchupCharacterNames } from '../../../../../types/data/matchupChart';
+import { genSimpleHslSpectrum } from '../../../../../utils/colours/hslSpectrum';
+import Loader from '../../../../routing/Loader/Loader';
+import PageContainer from '../../PageContainer/PageContainer';
 
 type MatchupDataPoint = {
   opponent: string,
@@ -43,7 +43,7 @@ const MatchupWinrateTooltip = ({ active, payload, label }: TooltipContentProps<s
 }
 
 
-export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
+const MatchupRadioChart = ({ isAnimationActive = true }: { isAnimationActive?: boolean }) => {
 
   // #region ComponentState
   const [matchupResponse, setMatchupResponse] = useState<MatchupWinrateResponse>();
@@ -206,8 +206,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
 
   return (
     matchupData !== undefined && charList !== undefined ?
-    <div className={styles.container}>
-
+    <PageContainer>
       <div className={styles.controls}>
         <div className={styles.datasetRadiobuttons}>
           {
@@ -270,7 +269,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
         </div>
       </div>
 
-      <RadarChart style={{ width: '33%', aspectRatio: 1 }} responsive data={matchupData}>
+      <RadarChart className={styles.radioChart} responsive data={matchupData}>
         <PolarGrid />
         <PolarAngleAxis dataKey="opponent" />
         <PolarRadiusAxis angle={90} domain={[-20, 20]} />
@@ -286,9 +285,11 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
         <Legend />
         <Tooltip content={MatchupWinrateTooltip}/>
       </RadarChart>
-    </div>
+    </PageContainer>
     
     : <Loader/>
   )
   
 };
+
+export default MatchupRadioChart;

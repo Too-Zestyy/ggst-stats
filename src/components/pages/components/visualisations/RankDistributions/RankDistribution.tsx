@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { RankDistributionResponse } from '../../../types/responses/RankDistribution';
-import { RankDistributionGraphDataPoint } from '../../../types/data/RankDistribution';
-import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
-import Loader from '../../routing/Loader/Loader';
+import { RankDistributionGraphDataPoint } from '../../../../../types/data/RankDistribution';
+import { RankDistributionResponse } from '../../../../../types/responses/RankDistribution';
+import Loader from '../../../../routing/Loader/Loader';
+import PageContainer from '../../PageContainer/PageContainer';
 
-export default () => {
+const RankDistributionChart = () => {
 
   const [rankDistributionData, setRankDistributionData] = useState<RankDistributionGraphDataPoint[]>();
 
@@ -51,7 +51,7 @@ export default () => {
   return (
 
     rankDistributionData !== undefined ?
-    <div>
+    <PageContainer>
       <LineChart
         style={{ width: '100%', maxWidth: '700px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618 }}
         responsive
@@ -71,8 +71,10 @@ export default () => {
         <Line type="monotone" dataKey="player_count" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
       <p>{JSON.stringify(rankDistributionData)}</p>
-    </div>
+    </PageContainer>
     
     : <Loader/>
   );
-}
+};
+
+export default RankDistributionChart;

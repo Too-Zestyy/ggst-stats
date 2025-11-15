@@ -1,11 +1,3 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  width: "100%";
-  max-height: "100vh";
-  align-items: center;
-}
-
 .controls {
   display: flex;
   flex-direction: column;
@@ -37,12 +29,29 @@
 }
 
 .characterSelectionMenu {
-  width: 66%;
+  width: 100%;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .characterSelectionMenu div {
   width: 10em;
   justify-content: space-between;
+}
+
+.radioChart {
+  aspect-ratio: 1;
+}
+@media (min-width: 768px) {
+  .radioChart {
+    width: 50%;
+    max-height: 75vh;
+    aspect-ratio: 1;
+  }
+}
+@media (max-width: 767px) {
+  .radioChart {
+    width: 100%;
+    aspect-ratio: 1;
+  }
 }/*# sourceMappingURL=MatchupWinrates.module.css.map */

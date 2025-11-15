@@ -79,12 +79,27 @@
     animation: 4s containerAnimation infinite;
 }
 
-$loader-grid-colour: rgba(255, 255, 255, 0.2);;
+$loader-grid-colour-dark: rgba(255, 255, 255, 0.2);
+$loader-grid-colour-light: rgba(255, 255, 255, 0.4);
+
+@keyframes loaderCircleAnimation {
+    0% {
+        border-color: $loader-grid-colour-dark;
+    }
+
+    50% {
+        border-color: $loader-grid-colour-light;
+    }
+
+    100% {
+        border-color: $loader-grid-colour-dark;
+    }
+}
 
 @mixin border-circle {
     border-radius: 100%;
-    border: 1px solid $loader-grid-colour;
-    
+    border: 1px solid $loader-grid-colour-dark;
+    animation: 4s loaderCircleAnimation infinite alternate ease-in-out;
 }
 
 .outerCircle {
@@ -108,27 +123,25 @@ $loader-grid-colour: rgba(255, 255, 255, 0.2);;
     height: 25%;
 }
 
-ul.loaderGrid {
-    list-style: none;
-
-    > li {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        background-color: $loader-grid-colour;
+@keyframes loaderGridAnimation {
+    0% {
+        background-color: $loader-grid-colour-dark;
     }
 
-    @for $i from 1 through 7 {
-        :nth-child(#{$i}) {
-            transform: rotate(calc((360deg / 7) * #{i}));
-        }
+    50% {
+        background-color: $loader-grid-colour-light;
+    }
+
+    100% {
+        background-color: $loader-grid-colour-dark;
     }
 }
 
 @mixin loader-bg-gridline {
     width: 1px;
     height: 50%;
-    background-color: $loader-grid-colour;
+    background-color: $loader-grid-colour-dark;
+    animation: 4s loaderGridAnimation infinite alternate ease-in-out;
     // transform: translate(0px, -50%);
 }
 

@@ -68,9 +68,21 @@
   align-self: center;
 }
 
+@keyframes loaderCircleAnimation {
+  0% {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
 .outerCircle {
   border-radius: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: 4s loaderCircleAnimation infinite alternate ease-in-out;
   width: 100%;
   height: 100%;
 }
@@ -78,6 +90,7 @@
 .midOuterCircle {
   border-radius: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: 4s loaderCircleAnimation infinite alternate ease-in-out;
   width: 75%;
   height: 75%;
 }
@@ -85,6 +98,7 @@
 .midInnerCircle {
   border-radius: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: 4s loaderCircleAnimation infinite alternate ease-in-out;
   width: 50%;
   height: 50%;
 }
@@ -92,45 +106,27 @@
 .innerCircle {
   border-radius: 100%;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: 4s loaderCircleAnimation infinite alternate ease-in-out;
   width: 25%;
   height: 25%;
 }
 
-ul.loaderGrid {
-  list-style: none;
+@keyframes loaderGridAnimation {
+  0% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
 }
-ul.loaderGrid > li {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-ul.loaderGrid :nth-child(1) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(2) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(3) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(4) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(5) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(6) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-ul.loaderGrid :nth-child(7) {
-  transform: rotate(calc(51.4285714286deg * i));
-}
-
 .gridLine1 {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.1428571429turn) translate(0px, -50%);
 }
 
@@ -138,6 +134,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.2857142857turn) translate(0px, -50%);
 }
 
@@ -145,6 +142,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.4285714286turn) translate(0px, -50%);
 }
 
@@ -152,6 +150,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.5714285714turn) translate(0px, -50%);
 }
 
@@ -159,6 +158,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.7142857143turn) translate(0px, -50%);
 }
 
@@ -166,6 +166,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(0.8571428571turn) translate(0px, -50%);
 }
 
@@ -173,6 +174,7 @@ ul.loaderGrid :nth-child(7) {
   width: 1px;
   height: 50%;
   background-color: rgba(255, 255, 255, 0.2);
+  animation: 4s loaderGridAnimation infinite alternate ease-in-out;
   transform: rotate(1turn) translate(0px, -50%);
 }
 
