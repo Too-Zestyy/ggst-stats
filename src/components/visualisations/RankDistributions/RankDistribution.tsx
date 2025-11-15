@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import { RankDistributionResponse } from '../../../types/responses/RankDistribution';
 import { RankDistributionGraphDataPoint } from '../../../types/data/RankDistribution';
 import { getCorsProxiedJSON } from '../../../utils/requests/corsProxy';
+import Loader from '../../routing/Loader/Loader';
 
 export default () => {
 
@@ -72,6 +73,6 @@ export default () => {
       <p>{JSON.stringify(rankDistributionData)}</p>
     </div>
     
-    : <p>Loading...</p>
+    : <Loader/>
   );
 }

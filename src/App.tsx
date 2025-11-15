@@ -1,21 +1,18 @@
 import React from 'react';
 import styles from './styles/App/App.module.css';
 
-import Header from './components/header/Header';
-
 import LineChart from './components/visualisations/RankDistributions/RankDistribution';
 import MatchupRadioChart from './components/visualisations/MatchupWinrates/MatchupWinrates';
-import HeaderT from './components/HeaderT/HeaderT';
+import AppHeader from './components/Header/Header';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Loader from './components/Loader/Loader';
+import Loader from './components/routing/Loader/Loader';
 
 function App() {
   return (
 
     <BrowserRouter basename='/ggst-stats' >
       <div className={styles.App}>
-        <HeaderT></HeaderT>
-        <Loader></Loader>
+        <AppHeader></AppHeader>
 
         <Routes>
           <Route path="/" element={<MatchupRadioChart/>}/>
@@ -23,14 +20,6 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
-    // <div className="App">
-    //   {/* <Header></Header> */}
-    //   <HeaderT></HeaderT>
-
-    //   {/* <LineChart></LineChart> */}
-    //   <MatchupRadioChart></MatchupRadioChart>
-      
-    // </div>
   );
 }
 

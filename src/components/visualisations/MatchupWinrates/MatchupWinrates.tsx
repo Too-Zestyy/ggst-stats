@@ -7,6 +7,7 @@ import { MatchupCharacterNames } from '../../../types/data/matchupChart';
 import styles from './MatchupWinrates.module.css';
 import { genSimpleHslSpectrum } from '../../../utils/colours/hslSpectrum';
 import TooltipContainer from '../components/TooltipContainer/TooltipContainer';
+import Loader from '../../routing/Loader/Loader';
 
 type MatchupDataPoint = {
   opponent: string,
@@ -287,7 +288,7 @@ export default ({ isAnimationActive = true }: { isAnimationActive?: boolean }) =
       </RadarChart>
     </div>
     
-    : <div></div>
+    : <Loader/>
   )
   
 };

@@ -1,22 +1,39 @@
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 
+const Header = () => {
 
-export default () => {
     return (
-        <header className={styles.pageHeader}>
-            <h1 className={styles.pageTitle}>GGST Stats</h1>
-            <nav>
+        <header>
+            <div className={styles.menu}>
                 <ul>
-                    <li>Overview</li>
-                    <li>Matchups</li>
-                    <ul className={styles.dropdownMenu}>
-                        <li>Drop 1</li>
-                        <li>Drop 2</li>
-                        <li>Drop 2</li>
+                <li><a href="#">Home</a></li>
+                <li>
+                    <a href="#">About</a>
+                    <ul>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <li><a href="#">Websiteeewwwwwwwwwwwwwwww</a></li>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <span className={styles.dropdownUnderline}></span>
                     </ul>
-                    <li>About</li>
+                </li>
+                <li>
+                    <a href="#">Services +</a>
+                    <ul>
+                        <li><Link to="/">Matchups</Link></li>
+                        <li><Link to="/rank-distribution">Rank Distribution</Link></li>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <li><a href="#">Web Appaaaaaaaaa</a></li>
+                        <span className={styles.dropdownUnderline}></span>
+                    </ul>
+                </li>
+                {/* <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact</a></li> */}
                 </ul>
-            </nav>
+            </div>  
         </header>
     )
+
 }
+
+export default Header;
